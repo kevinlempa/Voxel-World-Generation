@@ -37,7 +37,7 @@ public class Chunk {
 		CombineQuads();
 	}
 
-	// Use this for initialization
+	
 	public Chunk (Vector3 position, Material c) {
 		
 		chunk = new GameObject(World.BuildChunkName(position));
@@ -48,7 +48,7 @@ public class Chunk {
 	
 	void CombineQuads()
 	{
-		//1. Combine all children meshes
+		// Combines all children meshes
 		MeshFilter[] meshFilters = chunk.GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
         int i = 0;
@@ -58,18 +58,18 @@ public class Chunk {
             i++;
         }
 
-        //2. Create a new mesh on the parent object
+        // Creates a new mesh on the parent object
         MeshFilter mf = (MeshFilter) chunk.gameObject.AddComponent(typeof(MeshFilter));
         mf.mesh = new Mesh();
 
-        //3. Add combined meshes on children as the parent's mesh
+        // Adds combined meshes on children as the parent's mesh
         mf.mesh.CombineMeshes(combine);
 
-        //4. Create a renderer for the parent
+        //Creates a renderer for the parent
 		MeshRenderer renderer = chunk.gameObject.AddComponent(typeof(MeshRenderer)) as MeshRenderer;
 		renderer.material = cubeMaterial;
 
-		//5. Delete all uncombined children
+		//Deletes all uncombined children
 		foreach (Transform quad in chunk.transform) {
      		GameObject.Destroy(quad.gameObject);
  		}
